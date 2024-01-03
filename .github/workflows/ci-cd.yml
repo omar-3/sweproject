@@ -20,10 +20,10 @@ jobs:
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/my-flask-app:${{ github.sha }}
 
       - name: Deploy to Azure Container Instance
-  run: |
-    EXISTS=$(az container show --resource-group resourcegroup111 --name mycontainerinstance --query "id" -o tsv)
-    if [ -z "$EXISTS" ]; then
-      az container create --resource-group resourcegroup111 --name mycontainerinstance --image ${{ secrets.ACR_LOGIN_SERVER }}/my-flask-app:${{ github.sha }} --registry-login-server ${{ secrets.ACR_LOGIN_SERVER }} --registry-username ${{ secrets.ACR_USERNAME }} --registry-password ${{ secrets.ACR_PASSWORD }} --dns-name-label myflaskappdnslabel --ports 80
-    else
-      az container restart --resource-group resourcegroup111 --name mycontainerinstance
-    fi
+        run: |
+          EXISTS=$(az container show --resource-group resourcegroup111 --name mycontainerinstance --query "id" -o tsv)
+          if [ -z "$EXISTS" ]; then
+            az container create --resource-group resourcegroup111 --name mycontainerinstance --image ${{ secrets.ACR_LOGIN_SERVER }}/my-flask-app:${{ github.sha }} --registry-login-server ${{ secrets.ACR_LOGIN_SERVER }} --registry-username ${{ secrets.ACR_USERNAME }} --registry-password ${{ secrets.ACR_PASSWORD }} --dns-name-label myflaskappdnslabel --ports 80
+          else
+            az container restart --resource-group resourcegroup111 --name mycontainerinstance
+          fi
